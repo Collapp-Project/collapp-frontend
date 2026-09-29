@@ -8,6 +8,7 @@ import { SubmitButton } from "../../components/ui/SubmitButton/SubmitButton";
 import { SpecialtySelector } from "../../components/common/auth/SpecialtySelector/SpecialtySelector";
 import { CompensationSelector } from "../../components/common/offers/CompensationSelector/CompensationSelector";
 import { STATUS_CONFIG } from "../../utils/constants";
+import { getApiError, hasFieldErrors } from "../../utils/apiError";
 import "./OfferFormPage.scss";
 
 const REQUIREMENTS_SEPARATOR = "\n\nRequisitos:\n";
@@ -126,15 +127,16 @@ export const OfferFormPage = () => {
         navigate(`/offers/${created.id}`);
       }
     } catch (err) {
-      const status = err.response?.status;
-      const data = err.response?.data;
+      const apiError = getApiError(err);
 
-      if (status === 400 && data?.fields) {
-        setFieldErrors(data.fields);
-      } else if (status === 403) {
-        setGeneralError(data?.error || "No tienes permiso para realizar esta acción");
+      if (apiError.status === 400 && (hasFieldErrors(apiError) || apiError.formError)) {
+        setFieldErrors(apiError.fieldErrors);
+        // Validaciones que no pertenecen a un campo concreto, como el rango de fechas.
+        if (apiError.formError) setGeneralError(apiError.formError);
+      } else if (apiError.status === 403) {
+        setGeneralError(apiError.message || "No tienes permiso para realizar esta acción");
       } else {
-        setGeneralError(data?.error || "Ocurrió un error inesperado. Inténtalo de nuevo.");
+        setGeneralError(apiError.message || "Ocurrió un error inesperado. Inténtalo de nuevo.");
       }
     } finally {
       setIsLoading(false);
