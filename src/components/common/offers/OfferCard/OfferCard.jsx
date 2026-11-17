@@ -3,7 +3,7 @@ import { MapPin, Calendar, Banknote, Handshake } from "lucide-react";
 import { CategoryBadge } from "../CategoryBadge/CategoryBadge";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
 import { formatDateRange } from "../../../../utils/formatDate";
-import { COMPENSATION_LABEL, CATEGORY_CONFIG, getLocationLabel } from "../../../../utils/constants";
+import { COMPENSATION_LABEL, CATEGORY_CONFIG } from "../../../../utils/constants";
 import "./OfferCard.scss";
 
 const COMPENSATION_ICON = {
@@ -37,7 +37,7 @@ export const OfferCard = ({ offer }) => {
 
       <div className="offer-card-meta">
         <span>
-          <MapPin size={14} aria-hidden="true" /> {getLocationLabel(location)}
+          <MapPin size={14} aria-hidden="true" /> {location}
         </span>
         <span>
           <Calendar size={14} aria-hidden="true" />{" "}

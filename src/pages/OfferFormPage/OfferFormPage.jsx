@@ -4,12 +4,10 @@ import { PlayCircle, PauseCircle, Ban } from "lucide-react";
 import { offerService } from "../../services/offerService";
 import { useAuth } from "../../hooks/useAuth";
 import { FormInput } from "../../components/ui/FormInput/FormInput";
-import { SelectInput } from "../../components/ui/SelectInput/SelectInput";
 import { SubmitButton } from "../../components/ui/SubmitButton/SubmitButton";
 import { SpecialtySelector } from "../../components/common/auth/SpecialtySelector/SpecialtySelector";
 import { CompensationSelector } from "../../components/common/offers/CompensationSelector/CompensationSelector";
 import { STATUS_CONFIG } from "../../utils/constants";
-import { getApiError, hasFieldErrors } from "../../utils/apiError";
 import "./OfferFormPage.scss";
 
 const REQUIREMENTS_SEPARATOR = "\n\nRequisitos:\n";
@@ -112,8 +110,7 @@ export const OfferFormPage = () => {
       title: formData.title,
       description: fullDescription,
       category: formData.category,
-      // null en vez de "" para que el backend devuelva el error de campo "La ubicación es obligatoria".
-      location: formData.location || null,
+      location: formData.location,
       startDate: formData.startDate,
       endDate: formData.endDate,
       compensationType: formData.compensationType,
@@ -129,16 +126,15 @@ export const OfferFormPage = () => {
         navigate(`/offers/${created.id}`);
       }
     } catch (err) {
-      const apiError = getApiError(err);
+      const status = err.response?.status;
+      const data = err.response?.data;
 
-      if (apiError.status === 400 && (hasFieldErrors(apiError) || apiError.formError)) {
-        setFieldErrors(apiError.fieldErrors);
-        // Validaciones que no pertenecen a un campo concreto, como el rango de fechas.
-        if (apiError.formError) setGeneralError(apiError.formError);
-      } else if (apiError.status === 403) {
-        setGeneralError(apiError.message || "No tienes permiso para realizar esta acción");
+      if (status === 400 && data?.fields) {
+        setFieldErrors(data.fields);
+      } else if (status === 403) {
+        setGeneralError(data?.error || "No tienes permiso para realizar esta acción");
       } else {
-        setGeneralError(apiError.message || "Ocurrió un error inesperado. Inténtalo de nuevo.");
+        setGeneralError(data?.error || "Ocurrió un error inesperado. Inténtalo de nuevo.");
       }
     } finally {
       setIsLoading(false);
@@ -189,11 +185,10 @@ export const OfferFormPage = () => {
             error={fieldErrors.category}
           />
 
-          <SelectInput
+          <FormInput
             id="location"
             label="Ubicación"
-            placeholder="Selecciona una provincia"
-            options={LOCATION_OPTIONS}
+            placeholder="Ciudad o Estudio"
             value={formData.location}
             onChange={updateField("location")}
             error={fieldErrors.location}

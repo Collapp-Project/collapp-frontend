@@ -17,7 +17,6 @@ import { PasswordInput } from "../../components/ui/PasswordInput/PasswordInput";
 import { SubmitButton } from "../../components/ui/SubmitButton/SubmitButton";
 import { AvatarPreview } from "../../components/ui/AvatarPreview/AvatarPreview";
 import { TextareaInput } from "../../components/ui/TextareaInput/TextareaInput";
-import { getApiError, hasFieldErrors } from "../../utils/apiError";
 import "./RegisterPage.scss";
 
 const TOTAL_STEPS = 2;
@@ -101,25 +100,25 @@ export const RegisterPage = () => {
       await register(formData);
       navigate("/feed");
     } catch (err) {
-      const apiError = getApiError(err);
+      const status = err.response?.status;
+      const data = err.response?.data;
 
-      if (apiError.status === 400 && (hasFieldErrors(apiError) || apiError.formError)) {
-        setFieldErrors(apiError.fieldErrors);
-        if (apiError.formError) setGeneralError(apiError.formError);
+      if (status === 400 && data?.fields) {
+        setFieldErrors(data.fields);
 
-        const hasStepOneError = Object.keys(apiError.fieldErrors).some((field) =>
+        const hasStepOneError = Object.keys(data.fields).some((field) =>
           STEP_ONE_FIELDS.includes(field),
         );
         if (hasStepOneError) {
           setCurrentStep(1);
         }
-      } else if (apiError.status === 409) {
+      } else if (status === 409) {
         setGeneralError(
-          apiError.message || "Ese usuario o email ya está registrado",
+          data?.error || "Ese usuario o email ya está registrado",
         );
       } else {
         setGeneralError(
-          apiError.message || "Ocurrió un error inesperado. Inténtalo de nuevo.",
+          data?.error || "Ocurrió un error inesperado. Inténtalo de nuevo.",
         );
       }
     } finally {

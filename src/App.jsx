@@ -25,14 +25,14 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* Feed y detalle públicos: el backend ya no exige token para ver una oferta */}
+          {/* Feed público: accesible */}
           <Route element={<MainLayout />}>
             <Route path="/feed" element={<FeedPage />} />
-            <Route path="/offers/:id" element={<OfferDetailPage />} />
           </Route>
 
           <Route element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
+              <Route path="/offers/:id" element={<OfferDetailPage />} />
               <Route path="/my-offers" element={<MyPublicationsPage />} />
               <Route path="/applications" element={<ApplicationsPage />} />
               <Route path="/profile" element={<ProfilePage />} />

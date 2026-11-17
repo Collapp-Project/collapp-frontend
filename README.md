@@ -4,8 +4,8 @@ A creative collaboration platform connecting professionals in the audiovisual wo
 
 ## 🔗 Repositories:
 
-- Frontend: [collapp-frontend](https://github.com/Collapp-Project/collapp-frontend)
-- Backend: [collapp-backend](https://github.com/Collapp-Project/collapp-backend)
+Frontend: [https://github.com/Collapp-Final-Project/collapp-frontend]
+Backend: [https://github.com/Collapp-Final-Project/collapp-backend]
 
 ## 🛠️ Tech Stack
 
