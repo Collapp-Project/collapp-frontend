@@ -14,7 +14,7 @@ import { StatusBadge } from "../../components/common/offers/StatusBadge/StatusBa
 import { AvatarPreview } from "../../components/ui/AvatarPreview/AvatarPreview";
 import { ConfirmDialog } from "../../components/ui/ConfirmDialog/ConfirmDialog";
 import { formatDateRange } from "../../utils/formatDate";
-import { COMPENSATION_LABEL } from "../../utils/constants";
+import { COMPENSATION_LABEL, getLocationLabel } from "../../utils/constants";
 import { getApiError } from "../../utils/apiError";
 import { applicationService } from "../../services/applicationService";
 import { OfferApplicationBox } from "../../components/common/applications/OfferApplicationBox/OfferApplicationBox";

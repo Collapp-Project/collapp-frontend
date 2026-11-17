@@ -8,7 +8,7 @@ import { SelectInput } from "../../components/ui/SelectInput/SelectInput";
 import { SubmitButton } from "../../components/ui/SubmitButton/SubmitButton";
 import { SpecialtySelector } from "../../components/common/auth/SpecialtySelector/SpecialtySelector";
 import { CompensationSelector } from "../../components/common/offers/CompensationSelector/CompensationSelector";
-import { STATUS_CONFIG } from "../../utils/constants";
+import { STATUS_CONFIG, LOCATION_OPTIONS } from "../../utils/constants";
 import { getApiError, hasFieldErrors } from "../../utils/apiError";
 import "./OfferFormPage.scss";
 
