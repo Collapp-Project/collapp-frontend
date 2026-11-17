@@ -4,6 +4,7 @@ import { PlayCircle, PauseCircle, Ban } from "lucide-react";
 import { offerService } from "../../services/offerService";
 import { useAuth } from "../../hooks/useAuth";
 import { FormInput } from "../../components/ui/FormInput/FormInput";
+import { SelectInput } from "../../components/ui/SelectInput/SelectInput";
 import { SubmitButton } from "../../components/ui/SubmitButton/SubmitButton";
 import { SpecialtySelector } from "../../components/common/auth/SpecialtySelector/SpecialtySelector";
 import { CompensationSelector } from "../../components/common/offers/CompensationSelector/CompensationSelector";
@@ -111,7 +112,8 @@ export const OfferFormPage = () => {
       title: formData.title,
       description: fullDescription,
       category: formData.category,
-      location: formData.location,
+      // null en vez de "" para que el backend devuelva el error de campo "La ubicación es obligatoria".
+      location: formData.location || null,
       startDate: formData.startDate,
       endDate: formData.endDate,
       compensationType: formData.compensationType,
@@ -187,10 +189,11 @@ export const OfferFormPage = () => {
             error={fieldErrors.category}
           />
 
-          <FormInput
+          <SelectInput
             id="location"
             label="Ubicación"
-            placeholder="Ciudad o Estudio"
+            placeholder="Selecciona una provincia"
+            options={LOCATION_OPTIONS}
             value={formData.location}
             onChange={updateField("location")}
             error={fieldErrors.location}

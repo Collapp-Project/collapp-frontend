@@ -129,6 +129,13 @@ export const OfferDetailPage = () => {
         ¡Te has inscrito correctamente en este proyecto!
       </p>
     );
+  } else if (!user) {
+    // El detalle es público: sin sesión se invita a entrar en vez de mostrar el formulario.
+    applySection = (
+      <p className="offer-detail-login-hint">
+        <Link to="/login">Inicia sesión</Link> para inscribirte en esta oferta.
+      </p>
+    );
   } else {
     applySection = (
       <div className="offer-detail-apply-section">
@@ -172,7 +179,7 @@ export const OfferDetailPage = () => {
 
         <div className="offer-detail-meta">
           <span>
-            <MapPin size={16} aria-hidden="true" /> {offer.location}
+            <MapPin size={16} aria-hidden="true" /> {getLocationLabel(offer.location)}
           </span>
           <span>
             <Calendar size={16} aria-hidden="true" />{" "}
