@@ -1,0 +1,18 @@
+@use "../../../styles/variables" as *;
+
+.auth-input-wrapper select {
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: $text-main;
+  font-size: $font-size-md;
+  cursor: pointer;
+
+  option {
+    color: $text-main;
+    background-color: $input-bg;
+  }
+}

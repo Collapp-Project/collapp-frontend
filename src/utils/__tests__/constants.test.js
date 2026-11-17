@@ -3,6 +3,9 @@ import {
   COMPENSATION_LABEL,
   CATEGORY_CONFIG,
   CATEGORIES,
+  LOCATION_LABEL,
+  LOCATION_OPTIONS,
+  getLocationLabel,
   STORAGE_KEYS,
   STATUS_CONFIG,
   STATUS_OPTIONS,
@@ -52,6 +55,32 @@ describe('STORAGE_KEYS', () => {
       TOKEN: 'collapp_token',
       USER: 'collapp_user',
     })
+  })
+})
+
+describe('LOCATION_LABEL', () => {
+  it('debe mapear las 52 provincias al nombre del enum del backend', () => {
+    expect(Object.keys(LOCATION_LABEL)).toHaveLength(52)
+    expect(LOCATION_LABEL.BARCELONA).toBe('Barcelona')
+    expect(LOCATION_LABEL.A_CORUNA).toBe('A Coruña')
+    expect(LOCATION_LABEL.SANTA_CRUZ_DE_TENERIFE).toBe('Santa Cruz de Tenerife')
+  })
+})
+
+describe('LOCATION_OPTIONS', () => {
+  it('debe derivar una opción por cada provincia', () => {
+    expect(LOCATION_OPTIONS).toHaveLength(52)
+    expect(LOCATION_OPTIONS).toContainEqual({ value: 'MADRID', label: 'Madrid' })
+  })
+})
+
+describe('getLocationLabel', () => {
+  it('debe devolver la etiqueta legible de un valor del enum', () => {
+    expect(getLocationLabel('BARCELONA')).toBe('Barcelona')
+  })
+
+  it('debe respetar el texto libre de datos antiguos', () => {
+    expect(getLocationLabel('Plató independiente')).toBe('Plató independiente')
   })
 })
 
